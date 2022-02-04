@@ -30,7 +30,7 @@ class WifiSwitch(SwitchEntity):
 
     @property
     def name(self) -> str:
-        return "%s-%s" % (self._device["host"], self._device["ifname"])
+        return "Switch at %s using %s" % (self._device["host"], self._device["ifname"])
 
     @property
     def icon(self) -> str:
@@ -77,3 +77,16 @@ class WifiSwitch(SwitchEntity):
         ssh.exec_command("uci commit wireless")
         ssh.exec_command("wifi")
         ssh.close()
+
+    @property
+    def device_info(self):
+        return {
+            "identifiers": {
+                (DOMAIN, self.unique_id)
+            },
+            "name": self.name,
+            "manufacturer": "OpenWRT",
+            "model": "WiFi Switch",
+            "sw_version": "1.0",
+            "via_device": "1.0",
+        }
