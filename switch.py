@@ -47,7 +47,7 @@ class WifiSwitch(SwitchEntity):
 
         ssh.connect(hostname=self._device["host"], port=self._device["port"], username=self._device["username"], password=self._device["password"])
         ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("uci get wireless.%s.disabled" % self._device["ifname"])
-        ssh_stdout = ssh_stdout.readlines()[0].decode("utf-8")
+        ssh_stdout = ssh_stdout.readlines()[0]
 
         if "Entry not found" in ssh_stdout:
             ssh.exec_command("uci set wireless.%s.disabled=0" % self._device["ifname"])
