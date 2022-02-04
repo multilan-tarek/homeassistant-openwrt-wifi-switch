@@ -1,0 +1,5 @@
+IFNAME = "ifname"
+HOST = "host"
+USERNAME = "username"
+PASSWORD = "password"
+PORT = "22"
