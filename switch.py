@@ -43,7 +43,7 @@ class WifiSwitch(SwitchEntity):
     @property
     def is_on(self) -> bool:
         ssh = paramiko.SSHClient()
-        ssh.connect(hostname="%s:%s" % (self._device["host"], self._device["port"]), username=self._device["username"], password=self._device["password"])
+        ssh.connect(hostname=self._device["host"], port=self._device["port"], username=self._device["username"], password=self._device["password"])
         ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("uci get wireless.%s.disabled" % self._device["ifname"])
         _LOGGER.error(ssh_stdin)
         _LOGGER.error(ssh_stdout)
@@ -53,14 +53,14 @@ class WifiSwitch(SwitchEntity):
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         ssh = paramiko.SSHClient()
-        ssh.connect(hostname="%s:%s" % (self._device["host"], self._device["port"]), username=self._device["username"], password=self._device["password"])
+        ssh.connect(hostname=self._device["host"], port=self._device["port"], username=self._device["username"], password=self._device["password"])
         ssh.exec_command("uci set wireless.%s.disabled=0" % self._device["ifname"])
         ssh.exec_command("uci commit wireless")
         # ssh.exec_command("wifi")
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         ssh = paramiko.SSHClient()
-        ssh.connect(hostname="%s:%s" % (self._device["host"], self._device["port"]), username=self._device["username"], password=self._device["password"])
+        ssh.connect(hostname=self._device["host"], port=self._device["port"], username=self._device["username"], password=self._device["password"])
         ssh.exec_command("uci set wireless.%s.disabled=1" % self._device["ifname"])
         ssh.exec_command("uci commit wireless")
         #ssh.exec_command("wifi")
