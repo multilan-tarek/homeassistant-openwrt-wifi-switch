@@ -31,7 +31,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
         device_registry.async_get_or_create(
             config_entry_id=device,
             identifiers={(DOMAIN, "%s_%s" % (config[DOMAIN][device][HOST], config[DOMAIN][device][IFNAME]))},
-            connections={(device_registry.CONNECTION_NETWORK_MAC, "12:34:56:AB:CD:EF")},
+            connections={(dr.CONNECTION_NETWORK_MAC, "12:34:56:AB:CD:EF")},
             suggested_area="Living Room",
             manufacturer="OpenWRT",
             name="WiFi Switch",
