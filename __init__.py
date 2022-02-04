@@ -5,6 +5,7 @@ from homeassistant.helpers.typing import ConfigType
 from homeassistant.helpers import config_validation as cv
 from .const import (IFNAME, HOST, USERNAME, PASSWORD, PORT)
 from homeassistant.helpers import device_registry as dr
+from homeassistant.const import Platform
 import logging
 
 
@@ -49,6 +50,6 @@ def async_setup_entry(hass: HomeAssistant, config: ConfigType) -> bool:
     hass.data[DOMAIN] = {
         "devices": devices
     }
-    hass.helpers.discovery.load_platform('switch', DOMAIN, {}, config)
+    hass.config_entries.async_setup_platforms(config, [Platform.SWITCH])
 
     return True
