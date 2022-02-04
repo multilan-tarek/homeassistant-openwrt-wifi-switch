@@ -4,6 +4,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.helpers import config_validation as cv
 from .const import (IFNAME, HOST, USERNAME, PASSWORD, PORT)
+from homeassistant.helpers import device_registry as dr
 import logging
 
 
@@ -22,9 +23,21 @@ PLATFORM_SCHEMA = vol.Schema(
 )
 
 
-def setup(hass: HomeAssistant, config: ConfigType) -> bool:
+def async_setup_entry(hass: HomeAssistant, config: ConfigType) -> bool:
     devices = []
     for device in range(len(config[DOMAIN])):
+        device_registry = dr.async_get(hass)
+
+        device_registry.async_get_or_create(
+            config_entry_id=device,
+            identifiers={(DOMAIN, "%s_%s" % (config[DOMAIN][device][HOST], config[DOMAIN][device][IFNAME]))},
+            manufacturer="OpenWRT",
+            name="WiFi Switch",
+            model="WiFi Switch",
+            sw_version="1.0",
+            hw_version="1.0",
+        )
+
         devices.append({
             "ifname": config[DOMAIN][device][IFNAME],
             "host": config[DOMAIN][device][HOST],

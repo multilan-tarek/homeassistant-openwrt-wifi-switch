@@ -77,16 +77,3 @@ class WifiSwitch(SwitchEntity):
         ssh.exec_command("uci commit wireless")
         ssh.exec_command("wifi")
         ssh.close()
-
-    @property
-    def device_info(self):
-        return {
-            "identifiers": {
-                (DOMAIN, self.unique_id)
-            },
-            "name": self.name,
-            "manufacturer": "OpenWRT",
-            "model": "WiFi Switch",
-            "sw_version": "1.0",
-            "via_device": "1.0",
-        }
