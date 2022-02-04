@@ -36,6 +36,6 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
     hass.data[DOMAIN] = {
         "devices": devices
     }
-    hass.helpers.discovery.load_platform('button', DOMAIN, {}, config)
+    hass.helpers.discovery.load_platform('switch', DOMAIN, {}, config)
 
     return True
