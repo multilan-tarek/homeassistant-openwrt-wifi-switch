@@ -44,13 +44,20 @@ class WifiSwitch(SwitchEntity):
     def is_on(self) -> bool:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
         ssh.connect(hostname=self._device["host"], port=self._device["port"], username=self._device["username"], password=self._device["password"])
         ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("uci get wireless.%s.disabled" % self._device["ifname"])
-        ssh_stdout = ssh_stdout.readlines()
-        _LOGGER.error(ssh_stdout)
+        ssh_stdout = ssh_stdout.readlines()[0].decode("utf-8")
+
+        if "Entry not found" in ssh_stdout:
+            ssh.exec_command("uci set wireless.%s.disabled=0" % self._device["ifname"])
+            ssh.close()
+            return True
 
         ssh.close()
 
+        if "0" in ssh_stdout:
+            return True
         return False
 
     async def async_turn_on(self, **kwargs: Any) -> None:
@@ -68,5 +75,5 @@ class WifiSwitch(SwitchEntity):
         ssh.connect(hostname=self._device["host"], port=self._device["port"], username=self._device["username"], password=self._device["password"])
         ssh.exec_command("uci set wireless.%s.disabled=1" % self._device["ifname"])
         ssh.exec_command("uci commit wireless")
-        #ssh.exec_command("wifi")
+        # ssh.exec_command("wifi")
         ssh.close()
