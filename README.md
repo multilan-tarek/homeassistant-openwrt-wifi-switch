@@ -1,15 +1,21 @@
-# Example Sensor
+# OpenWRT WiFi Switch for Home Assistant
 
-This is a minimum implementation of an integration providing a sensor measurement.
+Switch your WiFi on and off using Home Assistant.
 
 ### Installation
 
-Copy this folder to `<config_dir>/custom_components/example_sensor/`.
+Go to this folder `<config_dir>/custom_components/`.
+
+Execute `git clone https://git.multilan.de/tarek/openwrt_wifi_switch.git`
 
 Add the following to your `configuration.yaml` file:
 
 ```yaml
 # Example configuration.yaml entry
-sensor:
-  platform: example_sensor
+openwrt_wifi_switch:
+- ifname: "<wifi-interface-ifname>"
+  host: "<ssh-host>"
+  username: "<ssh-username>"
+  password: "<ssh-password>"
+  port: "<ssh-port>"
 ```
