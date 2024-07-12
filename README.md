@@ -6,7 +6,7 @@ Switch your WiFi on and off using Home Assistant.
 
 Go to this folder `<config_dir>/custom_components/`.
 
-Execute `git clone https://git.multilan.de/tarek/openwrt_wifi_switch.git`
+Execute `git clone https://git.multilan.de/tarek/homeassistant-openwrt-wifi-switch`
 
 Add the following to your `configuration.yaml` file:
 
